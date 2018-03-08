@@ -153,14 +153,6 @@ fn array_join(b: &mut Bencher) {
 }
 
 #[bench]
-fn array_join_long(b: &mut Bencher) {
-    b.iter(|| {
-               let datetime: &str = &[DATE, "T", TIME].join("");
-               test::black_box(datetime);
-           });
-}
-
-#[bench]
 fn array_join_empty_arg(b: &mut Bencher) {
     b.iter(|| {
                let datetime: &str = &[DATE, "T", TIME].join("");
