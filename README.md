@@ -85,7 +85,7 @@ let list = [DATE, T, TIME];
 let datetime: String = list.iter().map(|x| *x).collect();
 ```
 
-### `collect_from_vecto_string()`
+### `collect_from_vec_to_string()`
 ```rust
 let list = vec![DATE, T, TIME];
 let datetime: String = list.iter().map(|x| *x).collect();
