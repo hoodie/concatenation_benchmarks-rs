@@ -97,7 +97,7 @@ let datetime: String = list.iter().map(|x| *x).collect();
 let datetime = &format!("{}{}{}", DATE, T, TIME);
 ```
 
-### `from_bytes() // ⚠️ don't actually do this`
+### `from_bytes()` ⚠️ don't actually do this
 
 ```rust
 use std::ffi::OsStr;
