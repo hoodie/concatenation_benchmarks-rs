@@ -1,4 +1,4 @@
-# Comparing ways to concatenate strings in Rust
+# Comparing ways to concatenate strings in Rust 1.61 nightly (1.58 stable)
 ## Intro
 
 There are many ways to turn a `&str` into a `String` in Rust and therefore many ways to concatenate two `&str`s.
@@ -10,21 +10,22 @@ Thanks to all the comments on and discussion on [reddit](https://www.reddit.com/
 
 ## How to run?
 
-* benchmarks: `cargo bench`
-* tests: `cargo test --benches`
+* benchmarks: `cargo +nightly bench`
+* tests: `cargo +nightly test --benches`
 
 
 ## Results (on my machine)
 
 ```bash
-$ cargo bench
+$ cargo +nightly bench
 
-running 34 tests
+running 36 tests
 test array_concat_test ... ignored
 test array_join_long_test ... ignored
 test array_join_test ... ignored
 test collect_from_array_to_string_test ... ignored
 test collect_from_vec_to_string_test ... ignored
+test format_macro_implicit_args_test ... ignored
 test format_macro_test ... ignored
 test from_bytes_test ... ignored
 test mut_string_push_str_test ... ignored
@@ -37,25 +38,26 @@ test string_from_all_test ... ignored
 test string_from_plus_op_test ... ignored
 test to_owned_plus_op_test ... ignored
 test to_string_plus_op_test ... ignored
-test array_concat                                 ... bench:          38 ns/iter (+/- 27)
-test array_join                                   ... bench:          38 ns/iter (+/- 22)
-test array_join_long                              ... bench:          35 ns/iter (+/- 18)
-test collect_from_array_to_string                 ... bench:          80 ns/iter (+/- 17)
-test collect_from_vec_to_string                   ... bench:          76 ns/iter (+/- 27)
-test format_macro                                 ... bench:         111 ns/iter (+/- 69)
-test from_bytes                                   ... bench:           1 ns/iter (+/- 0)
-test mut_string_push_str                          ... bench:          75 ns/iter (+/- 35)
-test mut_string_push_string                       ... bench:         164 ns/iter (+/- 77)
-test mut_string_with_capacity_push_str            ... bench:          32 ns/iter (+/- 14)
-test mut_string_with_capacity_push_str_char       ... bench:          29 ns/iter (+/- 12)
-test mut_string_with_too_little_capacity_push_str ... bench:          96 ns/iter (+/- 11)
-test mut_string_with_too_much_capacity_push_str   ... bench:          37 ns/iter (+/- 8)
-test string_from_all                              ... bench:         133 ns/iter (+/- 101)
-test string_from_plus_op                          ... bench:          76 ns/iter (+/- 9)
-test to_owned_plus_op                             ... bench:          81 ns/iter (+/- 15)
-test to_string_plus_op                            ... bench:          83 ns/iter (+/- 17)
+test array_concat                                 ... bench:          30 ns/iter (+/- 2)
+test array_join                                   ... bench:          22 ns/iter (+/- 0)
+test array_join_long                              ... bench:          24 ns/iter (+/- 1)
+test collect_from_array_to_string                 ... bench:          32 ns/iter (+/- 2)
+test collect_from_vec_to_string                   ... bench:          35 ns/iter (+/- 24)
+test format_macro                                 ... bench:          67 ns/iter (+/- 1)
+test format_macro_implicit_args                   ... bench:          67 ns/iter (+/- 1)
+test from_bytes                                   ... bench:           0 ns/iter (+/- 0)
+test mut_string_push_str                          ... bench:          24 ns/iter (+/- 0)
+test mut_string_push_string                       ... bench:          69 ns/iter (+/- 1)
+test mut_string_with_capacity_push_str            ... bench:          10 ns/iter (+/- 0)
+test mut_string_with_capacity_push_str_char       ... bench:          10 ns/iter (+/- 0)
+test mut_string_with_too_little_capacity_push_str ... bench:          39 ns/iter (+/- 0)
+test mut_string_with_too_much_capacity_push_str   ... bench:          11 ns/iter (+/- 0)
+test string_from_all                              ... bench:          43 ns/iter (+/- 0)
+test string_from_plus_op                          ... bench:          34 ns/iter (+/- 26)
+test to_owned_plus_op                             ... bench:          29 ns/iter (+/- 4)
+test to_string_plus_op                            ... bench:          27 ns/iter (+/- 0)
 
-test result: ok. 0 passed; 0 failed; 17 ignored; 17 measured; 0 filtered out
+test result: ok. 0 passed; 0 failed; 18 ignored; 18 measured; 0 filtered out; finished in 31.34s
 ```
 
 ## Examples explained
@@ -95,6 +97,12 @@ let datetime: String = list.iter().map(|x| *x).collect();
 
 ```rust
 let datetime = &format!("{}{}{}", DATE, T, TIME);
+```
+
+### `format_macro_implicit_args()`
+
+```rust
+let datetime = &format!("{DATE}{T}{TIME}");
 ```
 
 ### `from_bytes()` ⚠️ don't actually do this
