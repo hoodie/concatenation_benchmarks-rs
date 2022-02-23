@@ -103,6 +103,21 @@ fn format_macro_test() {
     assert_eq!(String::from(DATETIME), datetime);
 }
 
+/// Implicit named arguments were added in Rust 1.58
+#[bench]
+fn format_macro_implicit_args(b: &mut Bencher) {
+    b.iter(|| {
+        let datetime: &str = &format!("{DATE}T{TIME}");
+        test::black_box(datetime);
+    });
+}
+
+#[test]
+fn format_macro_implicit_args_test() {
+    let datetime: &str = &format!("{DATE}{T}{TIME}");
+    assert_eq!(String::from(DATETIME), datetime);
+}
+
 ////
 #[bench]
 #[cfg(unix)]
