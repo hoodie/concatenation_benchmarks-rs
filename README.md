@@ -233,9 +233,46 @@ let datetime = &(DATE.to_string() + T + TIME);
 
 ## Additional macro benches
 
-A number of crates on crates.io offering string concatenation as macro were included in the test:
+### `concat_string_macro`
 
-* https://crates.io/crates/concat-string (#1 @10ns)
-* https://crates.io/crates/concat_strs (#1 @10ns, but breaks RustAnalyzer)
-* https://crates.io/crates/string_concat (#1 @10ns)
-* https://crates.io/crates/concat-in-place (#2 @14ns)
+* Rank: #1 @10ns
+* Crate: https://crates.io/crates/concat-string
+
+```rust
+#[macro_use(concat_string)]
+extern crate concat_string;
+let datetime = concat_string!(DATE, T, TIME);
+```
+
+### `concat_strs_macro`
+
+* Rank: #1 @10ns
+* Crate: https://crates.io/crates/concat_strs
+
+Unfortunately, this macro [breaks RustAnalyzer](https://github.com/rust-analyzer/rust-analyzer/issues/6835).
+
+```rust
+#[macro_use(concat_strs)]
+extern crate concat_strs;
+let datetime = &concat_strs!(DATE, T, TIME);
+```
+
+### `string_concat_macro`
+
+* Rank: #1 @10ns
+* Crate: https://crates.io/crates/string_concat
+
+```rust
+#[macro_use]
+extern crate string_concat;
+let datetime = &string_concat::string_concat!(DATE, T, TIME);
+```
+
+### `concat_in_place_macro`
+
+* Rank: #2 @14ns
+* Crate: https://crates.io/crates/concat-in-place
+
+```rust
+let datetime = concat_in_place::strcat!(&mut url, DATE T TIME);
+```
