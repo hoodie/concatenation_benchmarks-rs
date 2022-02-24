@@ -60,6 +60,29 @@ test to_string_plus_op                            ... bench:          27 ns/iter
 test result: ok. 0 passed; 0 failed; 18 ignored; 18 measured; 0 filtered out; finished in 31.34s
 ```
 
+#### The same results rearranged fastest to slowest
+
+```
+0 ns/iter (+/- 0)       from_bytes
+10 ns/iter (+/- 0)      mut_string_with_capacity_push_str
+10 ns/iter (+/- 0)      mut_string_with_capacity_push_str_char
+11 ns/iter (+/- 0)      mut_string_with_too_much_capacity_push_str
+22 ns/iter (+/- 0)      array_join
+24 ns/iter (+/- 0)      mut_string_push_str
+24 ns/iter (+/- 1)      array_join_long
+27 ns/iter (+/- 0)      to_string_plus_op
+29 ns/iter (+/- 4)      to_owned_plus_op
+30 ns/iter (+/- 2)      array_concat
+32 ns/iter (+/- 2)      collect_from_array_to_string
+34 ns/iter (+/- 26)     string_from_plus_op
+35 ns/iter (+/- 24)     collect_from_vec_to_string
+39 ns/iter (+/- 0)      mut_string_with_too_little_capacity_push_str
+43 ns/iter (+/- 0)      string_from_all
+67 ns/iter (+/- 1)      format_macro
+67 ns/iter (+/- 1)      format_macro_implicit_args
+69 ns/iter (+/- 1)      mut_string_push_string
+```
+
 ## Examples explained
 
 
