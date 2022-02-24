@@ -71,28 +71,28 @@ test result: ok. 0 passed; 0 failed; 22 ignored; 22 measured; 0 filtered out; fi
 #### The same results rearranged fastest to slowest
 
 ```
-0 ns/iter (+/- 0)        test from_bytes
-10 ns/iter (+/- 0)       test concat_string_macro
-10 ns/iter (+/- 0)       test concat_strs_macro
-10 ns/iter (+/- 0)       test mut_string_with_capacity_push_str_char
-10 ns/iter (+/- 0)       test string_concat_macro
-10 ns/iter (+/- 1)       test mut_string_with_capacity_push_str
-14 ns/iter (+/- 0)       test concat_in_place_macro
-19 ns/iter (+/- 10)      test mut_string_with_too_much_capacity_push_str
-22 ns/iter (+/- 0)       test array_join
-24 ns/iter (+/- 0)       test array_concat
-24 ns/iter (+/- 0)       test array_join_long
-24 ns/iter (+/- 0)       test mut_string_push_str
-27 ns/iter (+/- 0)       test string_from_plus_op
-27 ns/iter (+/- 0)       test to_string_plus_op
-29 ns/iter (+/- 0)       test to_owned_plus_op
-30 ns/iter (+/- 0)       test collect_from_array_to_string
-34 ns/iter (+/- 0)       test collect_from_vec_to_string
-39 ns/iter (+/- 0)       test mut_string_with_too_little_capacity_push_str
-43 ns/iter (+/- 1)       test string_from_all
-52 ns/iter (+/- 0)       test format_macro
-53 ns/iter (+/- 0)       test format_macro_implicit_args
-68 ns/iter (+/- 1)       test mut_string_push_string
+0 ns/iter (+/- 0)         from_bytes
+10 ns/iter (+/- 0)        concat_string_macro
+10 ns/iter (+/- 0)        concat_strs_macro
+10 ns/iter (+/- 0)        mut_string_with_capacity_push_str_char
+10 ns/iter (+/- 0)        string_concat_macro
+10 ns/iter (+/- 1)        mut_string_with_capacity_push_str
+14 ns/iter (+/- 0)        concat_in_place_macro
+19 ns/iter (+/- 10)       mut_string_with_too_much_capacity_push_str
+22 ns/iter (+/- 0)        array_join
+24 ns/iter (+/- 0)        array_concat
+24 ns/iter (+/- 0)        array_join_long
+24 ns/iter (+/- 0)        mut_string_push_str
+27 ns/iter (+/- 0)        string_from_plus_op
+27 ns/iter (+/- 0)        to_string_plus_op
+29 ns/iter (+/- 0)        to_owned_plus_op
+30 ns/iter (+/- 0)        collect_from_array_to_string
+34 ns/iter (+/- 0)        collect_from_vec_to_string
+39 ns/iter (+/- 0)        mut_string_with_too_little_capacity_push_str
+43 ns/iter (+/- 1)        string_from_all
+52 ns/iter (+/- 0)        format_macro
+53 ns/iter (+/- 0)        format_macro_implicit_args
+68 ns/iter (+/- 1)        mut_string_push_string
 ```
 
 ## Examples explained
@@ -235,7 +235,7 @@ let datetime = &(DATE.to_string() + T + TIME);
 
 A number of crates on crates.io offering string concatenation as macro were included in the test:
 
-* https://crates.io/crates/concat-string
-* https://crates.io/crates/concat_strs
-* https://crates.io/crates/string_concat
-* https://crates.io/crates/concat-in-place
+* https://crates.io/crates/concat-string (#1 @10ns)
+* https://crates.io/crates/concat_strs (#1 @10ns, but breaks RustAnalyzer)
+* https://crates.io/crates/string_concat (#1 @10ns)
+* https://crates.io/crates/concat-in-place (#2 @14ns)
