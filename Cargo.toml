@@ -2,3 +2,9 @@
 name = "concatenation_benchmarks"
 version = "0.1.0"
 authors = ["Hendrik Sollich <hendrik@hoodie.de>"]
+
+[dependencies]
+concat-string = "1.0.1"
+concat_strs = "1.0.2"
+string_concat = "0.0.1"
+concat-in-place = "1.0.0"
