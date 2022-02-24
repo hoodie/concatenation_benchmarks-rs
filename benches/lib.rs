@@ -9,6 +9,8 @@ extern crate string_concat;
 extern crate concat_strs;
 #[macro_use(concat_string)]
 extern crate concat_string;
+extern crate joinery;
+use joinery::prelude::*;
 
 static DATE: &str = "2014-11-28";
 static T: &str = "T";
@@ -406,5 +408,22 @@ fn concat_string_macro(b: &mut Bencher) {
 #[test]
 fn concat_string_macro_test() {
     let datetime = &concat_string!(DATE, T, TIME);
+    assert_eq!(&String::from(DATETIME), datetime);
+}
+
+/// https://crates.io/crates/joinery
+#[bench]
+fn joinery(b: &mut Bencher) {
+    let vec = vec![DATE, T, TIME];
+    b.iter(|| {
+        let datetime = &vec.iter().join_with("").to_string();
+        test::black_box(datetime);
+    });
+}
+
+#[test]
+fn joinery_test() {
+    let vec = vec![DATE, T, TIME];
+    let datetime = &vec.iter().join_with("").to_string();
     assert_eq!(&String::from(DATETIME), datetime);
 }

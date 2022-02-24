@@ -19,7 +19,7 @@ Thanks to all the comments on and discussion on [reddit](https://www.reddit.com/
 ```bash
 $ cargo +nightly bench
 
-running 44 tests
+running 46 tests
 test array_concat_test ... ignored
 test array_join_long_test ... ignored
 test array_join_test ... ignored
@@ -31,6 +31,7 @@ test concat_strs_macro_test ... ignored
 test format_macro_implicit_args_test ... ignored
 test format_macro_test ... ignored
 test from_bytes_test ... ignored
+test joinery_test ... ignored
 test mut_string_push_str_test ... ignored
 test mut_string_push_string_test ... ignored
 test mut_string_with_capacity_push_str_char_test ... ignored
@@ -53,6 +54,7 @@ test concat_strs_macro                            ... bench:          10 ns/iter
 test format_macro                                 ... bench:          52 ns/iter (+/- 0)
 test format_macro_implicit_args                   ... bench:          53 ns/iter (+/- 0)
 test from_bytes                                   ... bench:           0 ns/iter (+/- 0)
+test joinery                                      ... bench:          57 ns/iter (+/- 2)
 test mut_string_push_str                          ... bench:          24 ns/iter (+/- 0)
 test mut_string_push_string                       ... bench:          68 ns/iter (+/- 1)
 test mut_string_with_capacity_push_str            ... bench:          10 ns/iter (+/- 1)
@@ -65,7 +67,7 @@ test string_from_plus_op                          ... bench:          27 ns/iter
 test to_owned_plus_op                             ... bench:          29 ns/iter (+/- 0)
 test to_string_plus_op                            ... bench:          27 ns/iter (+/- 0)
 
-test result: ok. 0 passed; 0 failed; 22 ignored; 22 measured; 0 filtered out; finished in 43.26s
+test result: ok. 0 passed; 0 failed; 23 ignored; 23 measured; 0 filtered out; finished in 33.39s
 ```
 
 #### The same results rearranged fastest to slowest
@@ -92,6 +94,7 @@ test result: ok. 0 passed; 0 failed; 22 ignored; 22 measured; 0 filtered out; fi
 43 ns/iter (+/- 1)        string_from_all
 52 ns/iter (+/- 0)        format_macro
 53 ns/iter (+/- 0)        format_macro_implicit_args
+57 ns/iter (+/- 2)        joinery
 68 ns/iter (+/- 1)        mut_string_push_string
 ```
 
@@ -275,4 +278,15 @@ let datetime = &string_concat::string_concat!(DATE, T, TIME);
 
 ```rust
 let datetime = concat_in_place::strcat!(&mut url, DATE T TIME);
+```
+
+### `joinery`
+
+* Rank: #22 @57ns
+* Crate: https://crates.io/crates/joinery
+
+```rust
+use joinery::prelude::*;
+let vec = vec![DATE, T, TIME];
+let datetime = &vec.iter().join_with("").to_string();
 ```
