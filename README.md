@@ -231,3 +231,11 @@ let datetime = &(DATE.to_owned() + T + TIME);
 let datetime = &(DATE.to_string() + T + TIME);
 ```
 
+## Additional macro benches
+
+A number of crates on crates.io offering string concatenation as macro were included in the test:
+
+* https://crates.io/crates/concat-string
+* https://crates.io/crates/concat_strs
+* https://crates.io/crates/string_concat
+* https://crates.io/crates/concat-in-place
