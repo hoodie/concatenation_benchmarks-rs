@@ -416,7 +416,7 @@ fn concat_string_macro_test() {
 fn joinery(b: &mut Bencher) {
     let vec = vec![DATE, T, TIME];
     b.iter(|| {
-        let datetime = &vec.iter().join_with("").to_string();
+        let datetime = &vec.iter().join_concat().to_string();
         test::black_box(datetime);
     });
 }
@@ -424,6 +424,6 @@ fn joinery(b: &mut Bencher) {
 #[test]
 fn joinery_test() {
     let vec = vec![DATE, T, TIME];
-    let datetime = &vec.iter().join_with("").to_string();
+    let datetime = &vec.iter().join_concat().to_string();
     assert_eq!(&String::from(DATETIME), datetime);
 }

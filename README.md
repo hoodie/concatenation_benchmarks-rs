@@ -54,7 +54,7 @@ test concat_strs_macro                            ... bench:          10 ns/iter
 test format_macro                                 ... bench:          52 ns/iter (+/- 0)
 test format_macro_implicit_args                   ... bench:          53 ns/iter (+/- 0)
 test from_bytes                                   ... bench:           0 ns/iter (+/- 0)
-test joinery                                      ... bench:          57 ns/iter (+/- 2)
+test joinery                                      ... bench:          46 ns/iter (+/- 0)
 test mut_string_push_str                          ... bench:          24 ns/iter (+/- 0)
 test mut_string_push_string                       ... bench:          68 ns/iter (+/- 1)
 test mut_string_with_capacity_push_str            ... bench:          10 ns/iter (+/- 1)
@@ -92,9 +92,9 @@ test result: ok. 0 passed; 0 failed; 23 ignored; 23 measured; 0 filtered out; fi
 34 ns/iter (+/- 0)        collect_from_vec_to_string
 39 ns/iter (+/- 0)        mut_string_with_too_little_capacity_push_str
 43 ns/iter (+/- 1)        string_from_all
+46 ns/iter (+/- 0)        joinery
 52 ns/iter (+/- 0)        format_macro
 53 ns/iter (+/- 0)        format_macro_implicit_args
-57 ns/iter (+/- 2)        joinery
 68 ns/iter (+/- 1)        mut_string_push_string
 ```
 
@@ -282,11 +282,11 @@ let datetime = concat_in_place::strcat!(&mut url, DATE T TIME);
 
 ### `joinery`
 
-* Rank: #22 @57ns
+* Rank: #12 @46ns
 * Crate: https://crates.io/crates/joinery
 
 ```rust
 use joinery::prelude::*;
 let vec = vec![DATE, T, TIME];
-let datetime = &vec.iter().join_with("").to_string();
+let datetime = &vec.iter().join_concat().to_string();
 ```
