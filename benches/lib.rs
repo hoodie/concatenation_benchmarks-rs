@@ -3,11 +3,19 @@
 extern crate test;
 use test::Bencher;
 
+#[macro_use]
+extern crate string_concat;
+#[macro_use(concat_strs)]
+extern crate concat_strs;
+#[macro_use(concat_string)]
+extern crate concat_string;
+extern crate joinery;
+use joinery::prelude::*;
+
 static DATE: &str = "2014-11-28";
 static T: &str = "T";
 static TIME: &str = "12:00:09Z";
 static DATETIME: &str = "2014-11-28T12:00:09Z";
-
 
 ////
 #[bench]
@@ -144,7 +152,10 @@ fn from_bytes_test() {
 
     let datetime = OsStr::from_bytes(bytes);
 
-    assert_eq!(String::from(DATETIME), datetime.to_owned().into_string().unwrap());
+    assert_eq!(
+        String::from(DATETIME),
+        datetime.to_owned().into_string().unwrap()
+    );
 }
 
 ////
@@ -333,4 +344,86 @@ fn to_string_plus_op(b: &mut Bencher) {
 fn to_string_plus_op_test() {
     let datetime: &str = &(DATE.to_string() + T + TIME);
     assert_eq!(String::from(DATETIME), datetime);
+}
+
+// ===== MACRO TESTS =====
+
+/// https://crates.io/crates/concat-in-place
+#[bench]
+fn concat_in_place_macro(b: &mut Bencher) {
+    b.iter(|| {
+        let mut url = String::new();
+        let datetime = concat_in_place::strcat!(&mut url, DATE T TIME);
+        test::black_box(datetime);
+    });
+}
+
+#[test]
+fn concat_in_place_macro_test() {
+    let mut url = String::new();
+    let datetime = concat_in_place::strcat!(&mut url, DATE T TIME);
+    assert_eq!(&String::from(DATETIME), datetime);
+}
+
+/// https://crates.io/crates/string_concat
+#[bench]
+fn string_concat_macro(b: &mut Bencher) {
+    b.iter(|| {
+        let datetime = &string_concat::string_concat!(DATE, T, TIME);
+        test::black_box(datetime);
+    });
+}
+
+#[test]
+fn string_concat_macro_test() {
+    let datetime = &string_concat::string_concat!(DATE, T, TIME);
+    assert_eq!(&String::from(DATETIME), datetime);
+}
+
+/// https://crates.io/crates/concat_strs
+/// This macro breaks RustAnalyzer (https://github.com/rust-analyzer/rust-analyzer/issues/6835)
+#[bench]
+fn concat_strs_macro(b: &mut Bencher) {
+    b.iter(|| {
+        let datetime = &concat_strs!(DATE, T, TIME);
+        test::black_box(datetime);
+    });
+}
+
+#[test]
+fn concat_strs_macro_test() {
+    let datetime = &concat_strs!(DATE, T, TIME);
+    assert_eq!(&String::from(DATETIME), datetime);
+}
+
+/// https://crates.io/crates/concat-string
+#[bench]
+fn concat_string_macro(b: &mut Bencher) {
+    b.iter(|| {
+        let datetime = concat_string!(DATE, T, TIME);
+        test::black_box(datetime);
+    });
+}
+
+#[test]
+fn concat_string_macro_test() {
+    let datetime = &concat_string!(DATE, T, TIME);
+    assert_eq!(&String::from(DATETIME), datetime);
+}
+
+/// https://crates.io/crates/joinery
+#[bench]
+fn joinery(b: &mut Bencher) {
+    let vec = vec![DATE, T, TIME];
+    b.iter(|| {
+        let datetime = &vec.iter().join_concat().to_string();
+        test::black_box(datetime);
+    });
+}
+
+#[test]
+fn joinery_test() {
+    let vec = vec![DATE, T, TIME];
+    let datetime = &vec.iter().join_concat().to_string();
+    assert_eq!(&String::from(DATETIME), datetime);
 }
