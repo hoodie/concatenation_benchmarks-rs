@@ -1,4 +1,4 @@
-# Comparing ways to concatenate strings in Rust 1.61 nightly (1.58 stable)
+# Comparing ways to concatenate strings in Rust 1.75 nightly
 ## Intro
 
 There are many ways to turn a `&str` into a `String` in Rust and therefore many ways to concatenate two `&str`s.
@@ -43,59 +43,59 @@ test string_from_all_test ... ignored
 test string_from_plus_op_test ... ignored
 test to_owned_plus_op_test ... ignored
 test to_string_plus_op_test ... ignored
-test array_concat                                 ... bench:          24 ns/iter (+/- 0)
-test array_join                                   ... bench:          22 ns/iter (+/- 0)
-test array_join_long                              ... bench:          24 ns/iter (+/- 0)
-test collect_from_array_to_string                 ... bench:          30 ns/iter (+/- 0)
-test collect_from_vec_to_string                   ... bench:          34 ns/iter (+/- 0)
-test concat_in_place_macro                        ... bench:          14 ns/iter (+/- 0)
-test concat_string_macro                          ... bench:          10 ns/iter (+/- 0)
-test concat_strs_macro                            ... bench:          10 ns/iter (+/- 0)
-test format_macro                                 ... bench:          52 ns/iter (+/- 0)
-test format_macro_implicit_args                   ... bench:          53 ns/iter (+/- 0)
+test array_concat                                 ... bench:          62 ns/iter (+/- 4)
+test array_join                                   ... bench:          35 ns/iter (+/- 1)
+test array_join_long                              ... bench:          52 ns/iter (+/- 20)
+test collect_from_array_to_string                 ... bench:          99 ns/iter (+/- 17)
+test collect_from_vec_to_string                   ... bench:          94 ns/iter (+/- 12)
+test concat_in_place_macro                        ... bench:          29 ns/iter (+/- 0)
+test concat_string_macro                          ... bench:          23 ns/iter (+/- 0)
+test concat_strs_macro                            ... bench:          23 ns/iter (+/- 0)
+test format_macro                                 ... bench:         112 ns/iter (+/- 4)
+test format_macro_implicit_args                   ... bench:         107 ns/iter (+/- 9)
 test from_bytes                                   ... bench:           0 ns/iter (+/- 0)
-test joinery                                      ... bench:          46 ns/iter (+/- 0)
-test mut_string_push_str                          ... bench:          24 ns/iter (+/- 0)
-test mut_string_push_string                       ... bench:          68 ns/iter (+/- 1)
-test mut_string_with_capacity_push_str            ... bench:          10 ns/iter (+/- 1)
-test mut_string_with_capacity_push_str_char       ... bench:          10 ns/iter (+/- 0)
-test mut_string_with_too_little_capacity_push_str ... bench:          39 ns/iter (+/- 0)
-test mut_string_with_too_much_capacity_push_str   ... bench:          19 ns/iter (+/- 10)
-test string_concat_macro                          ... bench:          10 ns/iter (+/- 0)
-test string_from_all                              ... bench:          43 ns/iter (+/- 1)
-test string_from_plus_op                          ... bench:          27 ns/iter (+/- 0)
-test to_owned_plus_op                             ... bench:          29 ns/iter (+/- 0)
-test to_string_plus_op                            ... bench:          27 ns/iter (+/- 0)
+test joinery                                      ... bench:         112 ns/iter (+/- 13)
+test mut_string_push_str                          ... bench:          64 ns/iter (+/- 0)
+test mut_string_push_string                       ... bench:         134 ns/iter (+/- 3)
+test mut_string_with_capacity_push_str            ... bench:          23 ns/iter (+/- 0)
+test mut_string_with_capacity_push_str_char       ... bench:          23 ns/iter (+/- 0)
+test mut_string_with_too_little_capacity_push_str ... bench:          96 ns/iter (+/- 1)
+test mut_string_with_too_much_capacity_push_str   ... bench:          44 ns/iter (+/- 15)
+test string_concat_macro                          ... bench:          24 ns/iter (+/- 0)
+test string_from_all                              ... bench:         104 ns/iter (+/- 1)
+test string_from_plus_op                          ... bench:          64 ns/iter (+/- 0)
+test to_owned_plus_op                             ... bench:          64 ns/iter (+/- 1)
+test to_string_plus_op                            ... bench:          64 ns/iter (+/- 3)
 
-test result: ok. 0 passed; 0 failed; 23 ignored; 23 measured; 0 filtered out; finished in 33.39s
+test result: ok. 0 passed; 0 failed; 23 ignored; 23 measured; 0 filtered out; finished in 21.52s
 ```
 
 #### The same results rearranged fastest to slowest
 
 ```
-0 ns/iter (+/- 0)         from_bytes
-10 ns/iter (+/- 0)        concat_string_macro
-10 ns/iter (+/- 0)        concat_strs_macro
-10 ns/iter (+/- 0)        mut_string_with_capacity_push_str_char
-10 ns/iter (+/- 0)        string_concat_macro
-10 ns/iter (+/- 1)        mut_string_with_capacity_push_str
-14 ns/iter (+/- 0)        concat_in_place_macro
-19 ns/iter (+/- 10)       mut_string_with_too_much_capacity_push_str
-22 ns/iter (+/- 0)        array_join
-24 ns/iter (+/- 0)        array_concat
-24 ns/iter (+/- 0)        array_join_long
-24 ns/iter (+/- 0)        mut_string_push_str
-27 ns/iter (+/- 0)        string_from_plus_op
-27 ns/iter (+/- 0)        to_string_plus_op
-29 ns/iter (+/- 0)        to_owned_plus_op
-30 ns/iter (+/- 0)        collect_from_array_to_string
-34 ns/iter (+/- 0)        collect_from_vec_to_string
-39 ns/iter (+/- 0)        mut_string_with_too_little_capacity_push_str
-43 ns/iter (+/- 1)        string_from_all
-46 ns/iter (+/- 0)        joinery
-52 ns/iter (+/- 0)        format_macro
-53 ns/iter (+/- 0)        format_macro_implicit_args
-68 ns/iter (+/- 1)        mut_string_push_string
+  0 ns/iter (+/- 0)   from_bytes                                   
+ 23 ns/iter (+/- 0)   concat_string_macro                          
+ 23 ns/iter (+/- 0)   concat_strs_macro                            
+ 23 ns/iter (+/- 0)   mut_string_with_capacity_push_str            
+ 23 ns/iter (+/- 0)   mut_string_with_capacity_push_str_char       
+ 24 ns/iter (+/- 0)   string_concat_macro                          
+ 29 ns/iter (+/- 0)   concat_in_place_macro                        
+ 35 ns/iter (+/- 1)   array_join                                   
+ 44 ns/iter (+/- 15)  mut_string_with_too_much_capacity_push_str   
+ 52 ns/iter (+/- 20)  array_join_long                              
+ 62 ns/iter (+/- 4)   array_concat                                 
+ 64 ns/iter (+/- 0)   mut_string_push_str                          
+ 64 ns/iter (+/- 0)   string_from_plus_op                          
+ 64 ns/iter (+/- 1)   to_owned_plus_op                             
+ 64 ns/iter (+/- 3)   to_string_plus_op                            
+ 94 ns/iter (+/- 12)  collect_from_vec_to_string                   
+ 96 ns/iter (+/- 1)   mut_string_with_too_little_capacity_push_str 
+ 99 ns/iter (+/- 17)  collect_from_array_to_string                 
+104 ns/iter (+/- 1)   string_from_all                              
+107 ns/iter (+/- 9)   format_macro_implicit_args                   
+112 ns/iter (+/- 13)  joinery                                      
+112 ns/iter (+/- 4)   format_macro                                 
+134 ns/iter (+/- 3)   mut_string_push_string                       
 ```
 
 ## Examples explained
@@ -290,3 +290,5 @@ use joinery::prelude::*;
 let vec = vec![DATE, T, TIME];
 let datetime = &vec.iter().join_concat().to_string();
 ```
+
+
